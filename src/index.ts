@@ -1,2 +1,3 @@
-let char : string = 'Hello TypeScript'
-document.querySelectorAll('.app')[0].textContent = char + 123
+import './enum'
+import './object-interface'
+import './function-interface'

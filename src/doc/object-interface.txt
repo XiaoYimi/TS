@@ -1,0 +1,125 @@
+1. 在后端返回数据结果时,我们对结果的数据结构进行类型检查,这时候就需要用到 对象类型接口
+
+let result = {
+  data: [
+    { id: 1, name: 'xiaoyimi' },
+    { id: 2, name: 'muchenfeng' }
+  ]
+}
+
+以上结果可看出 data 为数组类型, 数组项的每一项的 id 为数值类型, name 为字符类型
+由此可定义对象类型接口
+
+interface List {
+  id: number,
+  name: string
+}
+
+interface Result {
+  data: List[]
+}
+
+那么在使用函数传参时,可直接对参数进行类型检查
+
+function output (result : Result) {
+  result.data.forEach(item => {
+    console.log(ite,.id, item.value)
+  })
+}
+
+output(result)
+
+
+2. 虽然我们已定义后端返回数据的结果类型,但有时候后端也会返回一些额外的数据.
+但在编译的时候可能会有所报错.
+
+before-1
+let result = {
+  data: [
+    { id: 1, name: 'xiaoyimi' },
+    { id: 2, name: 'muchenfeng' }
+  ]
+}
+
+after-1
+let result = {
+  data: [
+    { id: 1, name: 'xiaoyimi', age: 25 },
+    { id: 2, name: 'muchenfeng', age: 27 }
+  ]
+}
+
+output(result)
+
+这时候并不会报错,那是因为 TS 采用'鸭子类型'.
+所谓鸭子类型,是指这个东西看起来像鸭子,叫起来像鸭子,走起来像鸭子,那么可以叫它为鸭子.
+
+
+
+after-2
+output({
+  data: [
+    { id: 1, name: 'xiaoyimi', age: 25 },
+    { id: 2, name: 'muchenfeng', age: 27 }
+  ]
+})
+// 提示 age 报错
+
+当我们直接对函数传参(字面量方式)时, TS 会额外的进行类型检查,这时候会有所报错(3种解决方法).
+
+解决 TS 类型检查带来的报错的方法(3种)
+  - 通过类型断言 '变量 as Interfase'
+  - 通过类型断言 '<Interface>变量'
+  - 字符串索引牵引, 在对象类型接口中定义 [x: string]: any; 
+
+字符串索引牵引:  用任意的字符串去索引 Interface, 可以得到任意结果; 这样 Interface 就可以接受多个属性了.
+
+那么我们可以使用类型断言的形式解决 TS 类型检查带来的报错.
+类型断言: 明确的告诉 TS 编译器某一变量的类型. 可用 变量 as <types>, 或 <types>变量 来解决.
+
+
+<Interface> 这种写法在 react 中有所歧义,故推荐 as Interface 这一写法.
+
+
+
+3. 对象类型接口的可选属性 (key?: type)
+有时候后端会返回一些字段,但有些字段可能会用到程序中,那么可以使用可选属性.
+
+interface InterName {
+  gander?: number
+}
+
+
+4. 对象类型接口的只读属性 (readonly key: type)
+只能读取,但不能对其进行修改;比如 id
+
+interface InterName {
+  readonly id: number
+}
+
+
+5. 小结
+在编辑接口的属性时,它的结构基本是固定的(有哪些字段信息).
+
+当你不确定一个接口中有多少个属性的时候,可使用可索引类型的接口.
+可索引类型的接口,可以使用字符串去索引,也可以使用数值去索引.
+
+(1) 数值索引
+用任意数值去索引(接口名 interA),都会得到一个字符串.
+
+interface interA {
+  [index: number]: string
+}
+
+(2) 字符串索引
+用任意的字符串去索引(接口名 interB),都会得到一个字符串.
+
+interface interB {
+  [x: string]: string
+}
+
+
+
+练习与思考
+找一些以前所开发过的 API,对 API 接口进行类型接口的定义;
+并加以思考如何定义类型,以及思考类型边界问题.
