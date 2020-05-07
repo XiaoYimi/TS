@@ -1,0 +1,32 @@
+1. TS 配置项
+使用命令查看帮助信息(tsc --help)
+这些配置信息可以用文件配置的形式来配置 (tsc --init)
+
+2. 创建第一个 TS 文件(.ts)
+在项目根目录下创建文件夹 src,且在 文件夹 src 下创建文件 index.ts
+
+3. 使用 tsc 命令来编译
+在命令行输入指令 (tsc ./src/index.ts) 后，会得到一个文件 index.js.
+可在两个文件中对比一下
+
+4. 配置构建工具 (webpack, webpack-cli)
+目的: 使程序能够跑起来.
+学习重点: 区分开发环境，生产环境;根据不同环境书写不同的配置项(公共配置,开发配置,生产配置,最后通过插件合并)
+
+在项目根目录下创建文件夹 build,用于存放配置文件
+- webpack.base.config.js
+- webpack.config.js
+- webpack.dev.config.js
+- webpack.pro.config.js
+
+编写配置需要用到的插件(记得安装 -D)
+html-webpack-plugin 目的是帮助项目生成首页文件 index.html,并将数据嵌入到页面中.
+clean-webpack-plugin 目的是在编译成功时清除缓存(hash),主要是作用于文件夹 dist.
+webpack-merge 目的是将一些配置文件合并
+
+在文件 package.json 中修改启动文件(main)为 './src/index.ts',
+并在 scripts 创建开发环境的启动命令 starts: 'wenpack-dev-server --mode=development --config ./build/webpack.config.js'
+并在 scripts 创建生产环境的启动命令 build: 'webpack --mode=production --config ./build/webpack.config.js'
+通过命令 npm run starts|build 运行是否成功
+
+5. 
