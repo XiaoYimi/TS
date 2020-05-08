@@ -23,7 +23,7 @@ function funcAdd (...rest: any): any {
   const firstItem = rest[0];
   if (typeof firstItem === 'number') {
     console.log('重载-数值')
-    return rest.reduce((pre: number, cur: number) => pre + cur)
+    return rest.reduce((pre: any, cur: any) => pre + cur)
   }
   else if (typeof firstItem === 'string') {
     console.log('重载-字符')
