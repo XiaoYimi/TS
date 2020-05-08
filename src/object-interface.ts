@@ -23,3 +23,4 @@ function output (result : Result) {
 }
 
 output(result)
+

@@ -1,0 +1,55 @@
+1. 定义函数的类型(4种)
+
+- 定义函数的类型
+  - function 的形式定义数据类型
+  - 变量的形式定义数据类型
+  - type (别名)的形式定义数据类型
+  - 接口的形式定义数据类型
+
+function sum (x:number, y:number) {
+  return x+y
+}
+
+let sum = (x:number, y:number) => number
+
+type sum = (x:number, y:number) => number
+
+interface funcSum {
+  (x:number, y:number): number
+}
+
+
+
+2. 注意点
+函数的参数定义要明确的个数,且传参时一一对应.
+如果存在可选的参数,可使用 arg?: value 进行定义;但可选参数必须位于必选参数之后.
+当函数的参数不大确定时,可使用剩余参数(...rest: number[]).
+
+
+3. 函数重载
+业界里的函数重载:名称相同,参数个数或参数类型不同
+
+TS 的函数重载: 
+要求预先定义一系列同名的函数功能的类型.
+在调用函数的时候,TS 会查询预先定义的函数重载列表进行匹配并返回.
+
+预定义重载函数列表
+function funcAdd (...rest: number[]): number
+function funcAdd (...rest: string[]): string
+
+使用最宽泛的类型来定义重载功能的操作
+function funcAdd (...rest: any): any {
+  const firstItem = rest[0];
+  if (typeof firstItem === 'number') {
+    console.log('重载-数值')
+    return rest.reduce((pre: number, cur: number) => pre + cur)
+  }
+  else if (typeof firstItem === 'string') {
+    console.log('重载-字符')
+    return rest.join('')
+  }
+}
+
+调用重载函数(会优先遭到匹配的重载函数列表)
+console.log(funcAdd(1,2,3,4,5))
+console.log(funcAdd('123','486','78','64','45'))
