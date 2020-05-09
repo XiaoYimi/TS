@@ -12,3 +12,5 @@ console.log('类与接口')
 import './class-interface'
 console.log('泛型')
 import './generic'
+console.log('泛型类与泛型约束')
+import './generic-class'

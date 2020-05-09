@@ -1,4 +1,4 @@
-泛型: 不会预先确定数据类型,而是在使用的时候才确定类型.
+1. 泛型: 不会预先确定数据类型,而是在使用的时候才确定类型.
 
 // 打印字符串
 function print (val: string): string {
@@ -31,7 +31,7 @@ function print (val: string | tsring[]): string | string[] {
   return val
 }
 
-改写为 泛型
+2. 改写为 泛型
 
 function print<T> (val: T): T {
   return val
@@ -65,3 +65,53 @@ let YouPrint: Print<number> = print
 interface Print<T = string> {
   (val: T): T
 }
+
+
+3. 泛型类
+
+通过泛型类来约束类的成员;但泛型类无法约束类的静态方法.
+
+class Log<T> {
+  constructor () {
+
+  }
+  run (val: T) {
+    console.log(val)
+    return val
+  }
+  // static swin (val: T) { return val } // 报错,泛型不能约束静态成员
+}
+
+// 不指定类型
+let myLog = new Log()
+myLog.run(123456)
+myLog.run('aegr')
+myLog.run({a: 1})
+
+// 指定类型
+let myLog1 = new Log<number>()
+myLog1.run(76531)
+
+
+
+4. 泛型约束
+泛型继承某一接口,使得泛型有所限制(必须有某口上的成员,否则报错)
+
+interface Length {
+  length: number
+}
+
+function Obj<T extends Length>(val: T): T {
+  console.log(val, val.length)
+  return val
+}
+
+Obj([12,456])
+Obj('htrs4g56')
+
+
+5. 小结
+- 使用泛型的好处
+  - 函数与类可以轻松地支持多种类型,增强程序扩展
+  - 不必写重载列表或定义联合类型的声明,增强代码可读性
+  - 灵活控制类型之间的耶稣
