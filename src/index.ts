@@ -8,3 +8,5 @@ console.log('类的实现与继承')
 import './class1'
 console.log('抽象类与多态')
 import './class2'
+console.log('类与接口')
+import './class-interface'

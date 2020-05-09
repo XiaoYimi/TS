@@ -1,0 +1,81 @@
+类与接口
+
+1. 接口只能约束类的公有成员;且无法约束类的构造函数.
+
+
+定义接口 Animal
+interface Animal {
+  new (): void // 无法约束构造函数
+  name: string,
+  run(): void
+}
+
+实现接口,并使用 接口 Animal 来约束
+class Dog implements Animal {
+  constructor (public name: string) {
+    this.name = name
+  }
+  run() { console.log(this.name + ' running') }
+}
+
+
+2. 接口的继承
+
+- 接口继承接口,且一个接口可以继承多个接口.
+将一系列可公用的属性或方法抽取出来,或者合并成一个接口.
+
+interface interH {
+  name: string,
+  age: number
+}
+
+interface interI extends interH {
+  ii(): void
+}
+
+
+- 接口继承类
+接口将类的成员抽取出来
+
+class clsB {
+  constructor (public name: string) {
+    this.name = name
+  }
+  bb() { console.log('bb') }
+}
+
+
+- 类继承类
+class clsO {
+  constructor (public o: string) {
+    this.o = o
+  }
+  showO () { console.log('show o') }
+}
+
+class clsP extends clsO {
+  constructor (public o: string, public p: number) {
+    super(o)
+    this.p = p
+  }
+  showP() { console.log('show p') }
+}
+
+
+3. 类与接口之间的关系
+
+- 类继承类
+- 接口继承接口
+- 接口继承类
+- 类实现接口的约束
+
+
+
+接口  ----------- 继承(公有属性/方法) ------------> 类
+接口  <----------- 实现-implements (public, private, protected)接口 ---------- 类
+
+
+注意:
+- 类通过关键字 implements 实现接口.
+- 接口继承类,实质上是将类的成员抽象出来,这些类成员包括 public,protected, private.
+- 接口继承接口,可继承一个或多个接口.
