@@ -61,10 +61,10 @@ class SubYou extends You implements YouInterface {
   // 由于子类 SubYou 继承基类 You,所以在实现接口 YouInterface 时不必再定义 type,name,showName 等继承来的属性
 }
 
-class threeYou implements YouInterface {
-  type = 'three you'
-  name = 'gaerg'
-  showName () {}
-  // 接口 YouInterface 包含所继承的私有成员 showIt()
-  // protected showIt () { return this } // 提示 showIt() 为 YouInterface 私有,不能在 threeYou.
-}
+// class threeYou implements YouInterface {
+//   type = 'three you'
+//   name = 'gaerg'
+//   showName () {}
+//   // 接口 YouInterface 包含所继承的私有成员 showIt()
+//   // protected showIt () { return this } // 提示 showIt() 为 YouInterface 私有,不能在 threeYou.
+// }

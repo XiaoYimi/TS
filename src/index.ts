@@ -10,3 +10,5 @@ console.log('抽象类与多态')
 import './class2'
 console.log('类与接口')
 import './class-interface'
+console.log('泛型')
+import './generic'

@@ -1,0 +1,67 @@
+泛型: 不会预先确定数据类型,而是在使用的时候才确定类型.
+
+// 打印字符串
+function print (val: string): string {
+  return val
+}
+
+
+如果输入字符数组,那么返回字符数组;
+我们可以使用 函数重载 的形式进行编写;也可以采用联合类型编写.
+
+当然,我们可以使用 any 类型;但是 any 类型忽略了传入参数类型与返回类型一致性的问题.
+
+
+函数重载
+
+function print (val: string): string {
+  return val
+}
+function print (val: string[]): string[] {
+  return val
+}
+
+function print (val: any): any {
+  return val
+}
+
+联合类型
+
+function print (val: string | tsring[]): string | string[] {
+  return val
+}
+
+改写为 泛型
+
+function print<T> (val: T): T {
+  return val
+}
+
+调用泛型函数
+确定类型为 string[]
+print<string[]>(['2', '4', '8']) 
+
+类型推断
+print(['5', 'tyj'])
+
+
+通过别名来定义泛型函数
+type Print = <T>(val: T) => T
+let myPrint: Print = print
+
+通过接口来定义泛型(仅仅约束函数)
+interface Print {
+  <T>(val: T): T
+}
+
+通过接口来定义泛型(约束函数,以及接口成员),实现时必须指定类型
+interface Print<T> {
+  (val: T): T
+}
+
+let YouPrint: Print<number> = print 
+
+指定默认类型
+interface Print<T = string> {
+  (val: T): T
+}
