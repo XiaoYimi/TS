@@ -1,0 +1,37 @@
+1. TS 的检查类型机制
+
+- TS 的检查类型机制
+  - 基础类型推断(TS 根据自身内部规则,预判值的类型,发生在初始化和设置函数默认参数,函数返回值)
+  - 最佳通用类型推断 (由多个类型返回一个类型时,TS 会推断一个兼容类型,发生在给数组添加不同类型值等)
+  - 上下文类型推断 (左到右,发生在事件处理)
+
+
+基础类型推断
+let a = 1; // 推断为 number
+let b = (x = 1) => x + 10 // 推断为 number
+
+最佳通用类型推断
+let = [1, null] // 多类型(number, null) => 兼容类型 (number | null)
+
+上下文类型推断
+window.onkeyup = event => {
+  console.log(event.button) // event.button, event (keybord 类型) 对象没有属性 button;
+}
+
+
+
+2. 类型断言
+类型断言: 程序员知道数据的类型,可定义接口来约束数据类型;切忌不可乱用,必须至少上下文类型.
+
+let foo = {}  // object 类型
+foo.bar = 123 // 报错, foo 没有属性 bar
+
+但是我们可以定义接口来约束数据类型
+interface Foo {
+  bar: number
+}
+
+重写 foo 对象
+let foo: Foo = {
+  bar: 45
+}
