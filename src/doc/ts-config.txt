@@ -1,0 +1,152 @@
+TS Config
+
+- TS Config
+  - 文件选项
+  - 编译选项
+
+
+// tsconfig.json
+files: 数组对象,表示需要被编译的文件集合
+exclude: 数组对象,表示被排除编译的文件集合
+include: 数组对象,表示需要被编译的文件集合
+
+
+注意: TS config 可以分开来写,然后使用 extends 来继承某个文件的配置
+// tsconfig.base.json
+{
+  files: ['src/index.ts'],
+  include: ['src/*'],
+  exclude: ['src/lib']
+}
+
+// tsconfig.json
+{
+  "extends": "./tsconfig.base.json"
+}
+
+
+编译选项
+
+编译选项的配置
+target: 编译目标语言 (es5)
+module: 模块标准 (commonjs)
+outFile: 将多模块的依赖打包成一个文件(模块为 AMD)
+
+
+类库的配置
+lib: 需要引用的类库文件(声明文件, 默认 dom, es5, scripthost)
+比如我们使用 es2019 数组的 flat 方法,就必须添加类库 es2019.array
+
+
+处理 .js 文件的配置
+allowjs: 允许编辑 .js .jsx 文件
+checkjs: 运行时报错提示
+
+
+编译输出的配置
+outDir: 编译后的文件目录(/dist)
+rootDir: 用于控制输出目录结构(./)
+
+
+声明文件的配置
+declaration: 是否生成声明文件
+declarationDir: 声明文件的存放目录
+emitDeclarationOnly: 只生成声明文件,但不生成 .js 文件
+sourceMap: 生成声明文件的 sourceMap
+
+
+注释的配置
+removeComments: 编译时删除注释(true)
+
+
+helper 函数的配置
+noEmitHelpers: 不生成 helper 函数,但需安装 ts-helper (解决 _extends 未定义问题)
+importHelpers: 通过 tslib 引入 helper 函数,文件必须为模块.
+
+
+类型检查的配置
+strict: 开启所有严格模式
+alwaysStrict: 编译文件头部注入 'use strict'; 严格模式
+noImplicitAny: 不允许隐式的 nay 类型
+strictNullChecks: 不允许把 null, undefined 复制给其它类型变量
+strictFunctionTypes: 不允许函数参数的双向协定
+strictPropertyInitalization: 类的实例必须初始化
+strBindCallApply: 严格的 bind, call, apply 检查
+noImplicitThis: 不允许 this 有隐式的 any 类型
+
+
+函数相关的配置(只会有错误提示,不阻碍运行)
+noUnusedLocals: 不允许只声明,但不使用的情况
+noUnusedParameters: 检查未使用的参数类型
+noFailThroughCasesInSwitch: 防止 switch 语句 case 的贯穿
+noImplicitResults: 分支必须有返回值
+
+
+模块相关配置
+moduleResolution: 模块解析策略(node, classic)
+
+node 相对导入
+/root/src/module_name.ts
+/root/src/module_name.tsx
+/root/src/module_name.d.ts
+/root/src/module_name/package.json('types)
+/root/src/module_name/index.ts
+/root/src/module_name/index.tsx
+/root/src/module_name/index.d.ts
+
+node 非相对导入
+/root/src/node_modules/module_name.ts
+/root/src/node_modules/module_name.tsx
+/root/src/node_modules/module_name.d.ts
+/root/src/node_modules/module_name/package.json('types')
+/root/src/node_modules/module_name/index.ts
+/root/src/node_modules/module_name/index.tsx
+/root/src/node_modules/module_name/index.d.ts
+
+/root/node_modules/module_name.ts
+/root/node_modules/module_name.tsx
+/root/node_modules/module_name.d.ts
+/root/node_modules/module_name/package.json('types')
+/root/node_modules/module_name/index.ts
+/root/node_modules/module_name/index.tsx
+/root/node_modules/module_name/index.d.ts
+
+/node_modules/module_name.ts
+/node_modules/module_name.tsx
+/node_modules/module_name.d.ts
+/node_modules/module_name/package.json('types')
+/node_modules/module_name/index.ts
+/node_modules/module_name/index.tsx
+/node_modules/module_name/index.d.ts
+
+
+baseUrl: 解析非相对模块的基地址 (./)
+paths: {
+  jq: jq 文件路径相对于 baseUrl
+}
+
+rootDirs: 将多个目录存放在一个虚拟目录(编译后的目录)下
+一般情况下,我们编译后的文件会存放在通过目录下(dist),但在源文件所引用的模块路径与编译后的文件路径发生变化.
+这时只需要配置 rootDirs: ['src', 'dist'],使得 src 与 dist 同属一个虚拟目录,那么只需要在引用的地方认为它们是处在同一目录下就可以了
+
+before: 
+// index.ts
+import { helper } from './utils/tslib'
+
+after:
+// index.ts
+import { helper } from './tslib
+
+
+
+工程引用相关配置
+composite: 使用工程引用,增量编译
+
+compilerOptions.outDir 指定输出目录
+
+refercences: 指定依赖
+
+优点:
+解决输出目录结构的问题
+解决单个工程构建的问题
+通过增量编译提示构建速度

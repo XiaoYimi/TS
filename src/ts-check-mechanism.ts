@@ -13,6 +13,6 @@ let f = (s = '') => s + 'efg' // 类型推断 string
 let g = [123, null] // 类型推断 number | null
 
 // 上下文类型推断
-window.onkeyup = (event) => {
-  console.log(event.myattr) // event 为 keybord 类型,没有 myattr 属性
-}
+// window.onkeyup = (event) => {
+//   console.log(event.myattr) // event 为 keybord 类型,没有 myattr 属性
+// }
