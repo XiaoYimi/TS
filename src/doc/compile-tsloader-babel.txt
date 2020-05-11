@@ -1,0 +1,98 @@
+// 加快构建速度,且进行类型检查 (ts-loader + fork-ts-checker-webpack-plugin)
+
+{
+  plugins: [
+    new ForkTsCheckerWebpackPlugin()
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.tsx?$/i,
+        use: [{
+          loader: 'ts-loader',
+          options: {
+            transpileOnly: true // (transpileOnly 默认 false, true 只做元转换,不进行类型检查,可进行快速构建,但类型错误还是会通过)
+            // 解决方案: 既开启快速构建模式,又保证类型检查,安装 fork-ts-checker-webpack-plugin -D
+          }
+        }],
+        exclude: /node_modules/
+      }
+    ]
+  }
+}
+
+  
+配置
+npm i fork-ts-checker-webpack-plugin -D
+
+对 ts-loader 的 options 设置 transpileOnly = true
+
+
+
+
+// 加快构建速度,且进行类型检查 (awesome-typescript-loader)
+1. 更适合与 babel 集成,使用 babel 转义与缓存.
+2. 不需要安装额外插件,在独立进程中进行类型检查.
+
+npm i awesome-typescript-loader -D
+
+
+
+
+
+Babel 7 之后, Babel 7 只做语言转换, TypeScript 做类型检查
+需要安装的插件:
+@babel/cli
+@babel/core
+@babel/plugin-proposal-class-properties (可食用扩展操作符)
+@babel/plugin-proposal-object-rest-spread (可使用剩余参数)
+@babel/preset-env
+@babel/preset-typescript
+
+.babelrc 配置文件
+{
+  "presets": [
+    "@babel/env",
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    "@babel/plugin-proposal-class-properties",
+    "@babel/plugin-proposal-object-rest-spread"
+  ]
+}
+
+脚本文件命令(scripts)
+build: babel src --out-dir dist --extensions \".ts,.tsx\""
+
+注意:
+babel 不能自动识别 .ts 文件,所以必须指定文件扩展名
+这一步还未安装 typescript,而且 babel 不能进行类型检查;所以安装 typescript 进行检查
+
+npm i typescript -D
+tsc --init  生成配置文件
+在配置文件(tsconfig.json)中开启 noEmit,只作类型检查,不输出文件
+
+执行终端监听类型检查 tsc --watch
+
+Babel 7 暂不支持 4 种语法
+命名空间
+namespace space_name {}
+
+类型断言 <type>
+建议使用 variable = {} as type
+
+常量枚举
+enum A {
+  a, b, c
+}
+
+export 导出
+export = t 
+
+
+
+
+TypeScript 编译工具的使用建议
+没有使用 Babel,首选 TypeScript 自身的编译器,配置 ts-loader
+如果工程应用 Babel, 可安装 @babel/preset-typescript,配合脚本 tsc --watch 
+两种编译工具不要混用

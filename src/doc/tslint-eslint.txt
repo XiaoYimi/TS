@@ -1,0 +1,7 @@
+TypeScript 类型检查,语法检查m语言转换
+ESLint 语法检查,代码风格
+
+
+通过 typescript-eslint 将 TSLint AST 转换为 ESLint AST
+TSLint AST >>> (typescript-eslint) >>> ESLint AST
+
